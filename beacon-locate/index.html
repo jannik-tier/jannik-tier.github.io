@@ -1,12 +1,107 @@
-
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Beacon locate - Calculator</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    Hello World.
-  </body>
+    <script src="https://j0kan.github.io/beacon-locate/lib/beaconlocate.js"></script>
+
+    <style type="text/css">
+        fieldset input {
+            float: right;
+            width: 100%;
+        }
+        
+        div {
+            display: inline;
+            float: left;
+        }
+    </style>
+
+    <script type="text/javascript">
+        window.onload = function() {
+
+            convertToIBeacon = function() {
+                position = {
+                    coords: {
+                        latitude: document.getElementById('lat').value,
+                        longitude: document.getElementById('lng').value,
+                        story: document.getElementById('story').value
+                    }
+                }
+                iBeacon = beaconlocate.convertPositionToIBeacon(position);
+                document.getElementById('uuid').value = iBeacon.uuid;
+                document.getElementById('major').value = iBeacon.major;
+                document.getElementById('minor').value = iBeacon.minor;
+            }
+
+            convertToPosition = function() {
+                iBeacon = {
+                    uuid: document.getElementById('uuid').value,
+                    major: document.getElementById('major').value,
+                    minor: document.getElementById('minor').value,
+                }
+                position = beaconlocate.convertIBeaconToPosition(iBeacon);
+                document.getElementById('lat').value = position.coords.latitude;
+                document.getElementById('lng').value = position.coords.longitude;
+                document.getElementById('story').value = position.coords.story;
+            }
+
+            showPosition = function(position) {
+                document.getElementById('lat').value = position.coords.latitude;
+                document.getElementById('lng').value = position.coords.longitude;
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <form>
+        <div>
+            <fieldset>
+                <label for="lat">Latitude</label>
+                <input name="lat" id="lat" value="50.1234567" />
+            </fieldset>
+            <fieldset>
+                <label for="lng">Longitude</label>
+                <input name="lng" id="lng" value="-120.9876543" />
+            </fieldset>
+            <fieldset>
+                <label for="story">Story</label>
+                <input name="story" id="story" value="0" />
+            </fieldset>
+        </div>
+        <div>
+            <input type="button" onclick="convertToIBeacon()" value=">>>">
+        </div>
+    </form>
+    <form>
+        <div>
+            <input type="button" onclick="convertToPosition()" value="<<<">
+        </div>
+        <div>
+            <fieldset>
+                <label for="uuid">UUID</label>
+                <input name="uuid" id="uuid" />
+            </fieldset>
+            <fieldset>
+                <label for="major">Major</label>
+                <input name="major" id="major" />
+            </fieldset>
+            <fieldset>
+                <label for="minor">Minor</label>
+                <input name="minor" id="minor" />
+            </fieldset>
+        </div>
+    </form>
+</body>
+
 </html>
