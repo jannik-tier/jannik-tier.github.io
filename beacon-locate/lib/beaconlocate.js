@@ -27,13 +27,13 @@ if (beaconlocate == null || typeof(beaconlocate) != "object") {
 }
 
 /* Convert an https://www.w3.org/TR/geolocation-API/#position object to an iBeacon object,
- * that contains 'uuid' as ':' separated HEX string, 'major' and 'minor' as number
+ * that contains 'uuid' as RFC 4122 UUID string representation, 'major' and 'minor' as number
  * The position coordinates can have an additional 'story' attribute with values 0 - 3
  * input: {coords : {latitude: 51.123456, longitude: -120.987654, story: 2}}
- * output: {uuid: 'BE:10:CA:7E:C0:01:F0:0D:10:CA:7E:02:32:05:78:37', major: 28889, minor: 51110}
+ * output: {uuid: 'BE10CA7E-C001-F00D-10CA-7E0232057837', major: 28889, minor: 51110}
  */
 beaconlocate.convertPositionToIBeacon = function(position) {
-  base = 'BE:10:CA:7E:C0:01:F0:0D:10:CA:7E:';
+  base = 'BE10CA7E-C001-F00D-10CA-7E';
   
   pos = {
  		lat : position.coords.latitude,
@@ -75,7 +75,7 @@ beaconlocate.convertPositionToIBeacon = function(position) {
   ];
   
   iBeacon = {
-  	uuid: base + uuidparts.join(':'),
+  	uuid: base + uuidparts.join(''),
     major: Math.floor(lat.secs / 0.01) << 1,
     minor: Math.floor(lng.secs / 0.01) << 1
   }
@@ -93,7 +93,7 @@ beaconlocate.convertPositionToIBeacon = function(position) {
 
 /* Convert an iBeacon object to a simplified https://www.w3.org/TR/geolocation-API/#position object,
  * that contains 'latitude', 'longitude' and an additional 'story' attribute with values 0 - 3
- * input: {uuid: 'BE:10:CA:7E:C0:01:F0:0D:10:CA:7E:02:32:05:78:37', major: 28889, minor: 51110}
+ * input: {uuid: 'BE10CA7E-C001-F00D-10CA-7E0232057837', major: 28889, minor: 51110}
  * output: {coords : {latitude: 50.12345556, longitude: -120.98765278, story: 2}}
  */
 beaconlocate.convertIBeaconToPosition = function(iBeacon) {
