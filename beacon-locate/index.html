@@ -52,6 +52,7 @@
             showPosition = function(position) {
                 document.getElementById('lat').value = position.coords.latitude;
                 document.getElementById('lng').value = position.coords.longitude;
+                convertToIBeacon();
             }
 
             if (navigator.geolocation) {
