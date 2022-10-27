@@ -99,13 +99,13 @@ beaconlocate.convertPositionToIBeacon = function(position) {
 beaconlocate.convertIBeaconToPosition = function(iBeacon) {
   uuid = iBeacon.uuid.split(':').join('');
 	lat = {
-  	degs : parseInt('0x' + uuid.substr(24, 2)),
-  	mins : parseInt('0x' + uuid.substr(26, 2)),
+  	degs : parseInt('0x' + uuid.substr(28, 2)),
+  	mins : parseInt('0x' + uuid.substr(30, 2)),
     secs : (iBeacon.major >> 1) * 0.01
   };
 	lng = {
-  	degs : parseInt('0x' + uuid.substr(28, 2)),
-  	mins : parseInt('0x' + uuid.substr(30, 2)),
+  	degs : parseInt('0x' + uuid.substr(32, 2)),
+  	mins : parseInt('0x' + uuid.substr(34, 2)),
     secs : (iBeacon.minor >> 1) * 0.01
   };
   position = {
